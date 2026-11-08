@@ -3,39 +3,41 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#fff7ef">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>AI 회화 친구</title>
 <style>
 :root{
-  --bg:#fff7ef; --surface:#ffffff; --surface2:#fdeedd; --ink:#2b2420; --muted:#6f625a;
-  --accent:#c94a16; --accent-ink:#ffffff; --accent-soft:#ffe1d2; --flame:#ff9600; --flame-off:#d9cbbd;
-  --ai:#ffffff; --me:#2f6fed; --me-ink:#ffffff; --repeat:#fff3c4; --repeat-ink:#5b4500;
-  --line:#eadccd; --danger:#c53030; --ok:#2e9e62;
+  /* Apple 시스템 색 (iOS 기본 앱과 같은 값) */
+  --bg:#f2f2f7; --surface:#ffffff; --surface2:#eeeef0; --ink:#000000; --muted:#6c6c70;
+  --accent:#007aff; --accent-ink:#ffffff; --accent-soft:#e5f0ff; --flame:#ff9500; --flame-text:#c93400; --flame-off:#c7c7cc;
+  --ai:#ffffff; --me:#007aff; --me-ink:#ffffff; --repeat:#fff4d6; --repeat-ink:#7a4d00;
+  --line:#d1d1d6; --danger:#d70015; --ok:#248a3d;
   --face:#ffd9b8; --hair:#6b3f22; --cheek:#ffab91;
-  --shadow:0 6px 20px rgba(80,40,10,.10);
+  --shadow:0 1px 2px rgba(0,0,0,.06);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#1b1715; --surface:#27211e; --surface2:#332a25; --ink:#f4ece6; --muted:#b3a59b;
-    --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22; --flame:#ffad33; --flame-off:#5a4c43;
-    --ai:#2c2521; --me:#4d82f0; --me-ink:#ffffff; --repeat:#4a3d12; --repeat-ink:#ffe28a;
-    --line:#3e342e; --danger:#ff6b6b; --ok:#4cc584;
-    --face:#f0c39e; --hair:#3a2416; --cheek:#e88b6f;
-    --shadow:0 6px 20px rgba(0,0,0,.35);
+  --bg:#000000; --surface:#1c1c1e; --surface2:#2c2c2e; --ink:#ffffff; --muted:#aeaeb2;
+  --accent:#0a84ff; --accent-ink:#ffffff; --accent-soft:#0a2a4d; --flame:#ff9f0a; --flame-text:#ff9f0a; --flame-off:#48484a;
+  --ai:#1c1c1e; --me:#0a84ff; --me-ink:#ffffff; --repeat:#3a2e10; --repeat-ink:#ffd60a;
+  --line:#38383a; --danger:#ff453a; --ok:#30d158;
+  --face:#f0c39e; --hair:#3a2416; --cheek:#e88b6f;
+  --shadow:none;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#1b1715; --surface:#27211e; --surface2:#332a25; --ink:#f4ece6; --muted:#b3a59b;
-  --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22; --flame:#ffad33; --flame-off:#5a4c43;
-  --ai:#2c2521; --me:#4d82f0; --me-ink:#ffffff; --repeat:#4a3d12; --repeat-ink:#ffe28a;
-  --line:#3e342e; --danger:#ff6b6b; --ok:#4cc584;
+  --bg:#000000; --surface:#1c1c1e; --surface2:#2c2c2e; --ink:#ffffff; --muted:#aeaeb2;
+  --accent:#0a84ff; --accent-ink:#ffffff; --accent-soft:#0a2a4d; --flame:#ff9f0a; --flame-text:#ff9f0a; --flame-off:#48484a;
+  --ai:#1c1c1e; --me:#0a84ff; --me-ink:#ffffff; --repeat:#3a2e10; --repeat-ink:#ffd60a;
+  --line:#38383a; --danger:#ff453a; --ok:#30d158;
   --face:#f0c39e; --hair:#3a2416; --cheek:#e88b6f;
-  --shadow:0 6px 20px rgba(0,0,0,.35);
+  --shadow:none;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Apple SD Gothic Neo",system-ui,"Pretendard","Noto Sans KR",sans-serif;font-size:17px;line-height:1.35;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
 button{font:inherit;color:inherit;cursor:pointer}
 input,select,textarea{font:inherit;color:var(--ink)}
 #app{max-width:480px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
@@ -45,7 +47,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .face{width:48px;height:48px;flex:none}
 .face svg{width:100%;height:100%;display:block}
 .who{flex:1;min-width:0}
-.who .name{font-weight:700;font-size:20px}
+.who .name{font-weight:600;font-size:17px}
 .status{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .timer{font-size:13px;color:var(--muted);background:var(--surface2);padding:4px 10px;border-radius:99px;white-space:nowrap}
 .timer.low{color:var(--danger)}
@@ -62,14 +64,14 @@ input,select,textarea{font:inherit;color:var(--ink)}
 
 /* 대화 */
 #chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
-.msg{max-width:86%;padding:12px 14px;border-radius:20px;box-shadow:var(--shadow);position:relative;line-height:1.4}
+.msg{max-width:86%;padding:10px 14px;border-radius:18px;box-shadow:var(--shadow);position:relative;line-height:1.4}
 .msg.ai{align-self:flex-start;background:var(--ai);border-top-left-radius:6px}
 .msg.me{align-self:flex-end;background:var(--me);color:var(--me-ink);border-top-right-radius:6px;font-size:17px}
 .msg.me .tag{font-size:12px;opacity:.85;display:block;margin-bottom:2px}
 .msg.sys{align-self:center;background:transparent;box-shadow:none;color:var(--muted);font-size:13px;text-align:center;padding:4px 8px}
 .msg.sys.err{color:var(--danger)}
 .msg.sys button{margin-top:6px;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;font-size:13px}
-.say{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.say{font-size:22px;font-weight:600;letter-spacing:-.02em}
 .ko{font-size:13px;color:var(--muted);margin-top:4px}
 .hide-ko .ko{display:none}
 .hide-ko .msg.ai.show-ko .ko{display:block}
@@ -97,10 +99,10 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;min-height:40px;font-size:14px}
 .chip b{color:var(--accent)}
 .round{width:52px;height:52px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:22px}
-.mic{width:92px;height:92px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:40px;box-shadow:0 8px 24px rgba(201,74,22,.35);transition:transform .1s}
+.mic{width:84px;height:84px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:36px;box-shadow:0 6px 18px rgba(0,122,255,.3);transition:transform .1s}
 .mic:active{transform:scale(.95)}
-.mic.listening{animation:ring 1.2s infinite;background:var(--danger)}
-@keyframes ring{0%{box-shadow:0 0 0 0 rgba(214,69,69,.5)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0)}}
+.mic.listening{animation:ring 1.2s infinite;background:#ff3b30}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,59,48,.45)}100%{box-shadow:0 0 0 22px rgba(255,59,48,0)}}
 .mic:disabled{opacity:.45;cursor:not-allowed}
 .textrow{display:flex;gap:8px;margin-top:10px}
 .textrow textarea{flex:1;border:1px solid var(--line);background:var(--surface);border-radius:16px;padding:10px 12px;resize:none;min-height:44px;max-height:120px;font-size:16px}
@@ -113,8 +115,8 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .sheet,.overlay{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto}
 .sheet[hidden],.overlay[hidden]{display:none}
 .sheet .inner{max-width:480px;margin:0 auto;padding:16px;padding-top:max(16px,env(safe-area-inset-top));padding-bottom:40px}
-.sheet h2{font-size:20px;margin:6px 0 4px}
-.sheet h3{font-size:15px;margin:22px 0 8px;color:var(--accent)}
+.sheet h2{font-size:34px;font-weight:700;letter-spacing:-.02em;margin:6px 0 4px}
+.sheet h3{font-size:13px;font-weight:400;text-transform:uppercase;margin:28px 0 8px;color:var(--muted)}
 .sheet .hint{font-size:12px;color:var(--muted);margin:4px 0 0}
 .field{display:flex;flex-direction:column;gap:4px;margin:10px 0}
 .field label{font-size:14px;font-weight:600}
@@ -126,7 +128,11 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .seg input{display:none}
 .seg label:has(input:checked){background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .check{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
-.check input{width:22px;height:22px;accent-color:var(--accent)}
+.check input{appearance:none;-webkit-appearance:none;flex:none;width:51px;height:31px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;transition:background .2s;margin:0}
+.check input::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:transform .2s cubic-bezier(.2,.9,.3,1)}
+.check input:checked{background:#34c759}
+.check input:checked::after{transform:translateX(20px)}
+.check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .range{display:flex;align-items:center;gap:10px}
 .range input{flex:1;accent-color:var(--accent)}
 .range output{min-width:40px;text-align:right;font-variant-numeric:tabular-nums}
@@ -140,14 +146,14 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .overlay{display:flex;align-items:center;justify-content:center}
 .overlay .card{max-width:420px;width:100%;padding:24px 16px;text-align:center}
 .overlay .bigface{width:150px;height:150px;margin:0 auto 12px}
-.overlay h1{font-size:24px;margin:0 0 6px}
+.overlay h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px}
 .overlay p{color:var(--muted);margin:0 0 22px;line-height:1.5}
 .overlay .actions{margin-top:12px}
 
 .meter{height:12px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:8px}
 .meter i{display:block;height:100%;width:0;background:var(--ok);transition:width .08s}
 /* 연속 학습 */
-.streak{display:inline-flex;align-items:center;gap:3px;font-weight:800;font-size:17px;color:var(--flame);padding:4px 8px;border-radius:99px;white-space:nowrap}
+.streak{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:17px;color:var(--flame-text);padding:4px 8px;border-radius:99px;white-space:nowrap}
 .streak.off{color:var(--muted)}
 .streak .fl{font-size:20px}
 .streak.off .fl{filter:grayscale(1);opacity:.55}
@@ -161,13 +167,13 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .goal b{color:var(--ink)}
 /* 시작 화면: 두 가지 연습 */
 .overlay .card{margin:auto}
-.mode{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+.mode{display:block;width:100%;text-align:left;border:0;background:var(--surface);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
 .mode+.mode{margin-top:10px}
 .mode:active{transform:scale(.98)}
 .mode .k{font-size:13px;font-weight:700;color:var(--accent)}
-.mode .t{font-size:20px;font-weight:700;margin-top:2px}
+.mode .t{font-size:20px;font-weight:600;letter-spacing:-.01em;margin-top:2px}
 .mode .s{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.4}
-.mode.primary{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow)}
+.mode.primary{box-shadow:0 0 0 2px var(--accent)}
 .linkbtn{border:0;background:transparent;color:var(--muted);font-size:14px;padding:10px;min-height:44px;text-decoration:underline}
 /* 오늘의 상황 카드 */
 .topic{margin:8px 16px 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;max-height:42vh;overflow-y:auto}
@@ -188,7 +194,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .celebrate{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:16px}
 .celebrate .box{background:var(--surface);border-radius:28px;padding:28px 20px 20px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow);animation:pop .45s cubic-bezier(.2,.9,.3,1) both}
 .celebrate .big{font-size:72px;line-height:1;animation:flame .6s .1s cubic-bezier(.2,.9,.3,1) both}
-.celebrate .n{font-size:44px;font-weight:800;color:var(--flame);margin-top:6px;letter-spacing:-.02em}
+.celebrate .n{font-size:34px;font-weight:700;color:var(--flame-text);margin-top:6px;letter-spacing:-.02em}
 .celebrate p{margin:4px 0 0;color:var(--muted)}
 @keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
 @keyframes flame{from{transform:scale(.4) translateY(20px)}to{transform:none}}
@@ -362,6 +368,15 @@ input,select,textarea{font:inherit;color:var(--ink)}
       · 결제 계정에 <b>한 달 사용 한도</b>를 꼭 걸어 두세요.
     </div>
 
+    <h3>🔄 휴대폰·맥 기록 맞추기</h3>
+    <div class="field"><label for="ghToken">GitHub 토큰</label>
+      <input type="password" id="ghToken" autocomplete="off" spellcheck="false" placeholder="ghp_ 로 시작하는 토큰">
+      <p class="hint">GitHub 비공개 메모(Gist)에 연속 기록·설정·대화를 저장해서 기기끼리 맞춰요. 키(AI·목소리)는 올리지 않아요.
+        <a href="https://github.com/settings/tokens/new?scopes=gist&description=ai-talk-friend" target="_blank" rel="noopener">여기서 토큰 만들기</a> → 'gist'만 체크된 채로 맨 아래 Generate → 복사해서 붙여 넣기. 휴대폰과 맥에 같은 토큰을 넣으면 돼요.</p>
+      <p class="hint" id="syncStatus"></p>
+    </div>
+    <button class="btn ghost" id="btnSyncNow" type="button">🔄 지금 맞추기</button>
+
     <div class="actions">
       <button class="btn" id="btnSave">저장하기</button>
       <button class="btn ghost" id="btnClearHistory">대화 기록 지우기</button>
@@ -432,7 +447,7 @@ function loadHistory(){
   history = store.get('history.' + mode, []);
   history.forEach(m => { m.veiled = false; }); // 지난 기록은 다시 가리지 않기
 }
-const saveHistory = () => store.set('history.' + mode, history);
+const saveHistory = () => { store.set('history.' + mode, history); syncSoon(); };
 
 /* ───────── 화면 요소 ───────── */
 const $ = id => document.getElementById(id);
@@ -1248,7 +1263,7 @@ function openSettings(){
   $('rate').value = S.rate; $('rateOut').textContent = (+S.rate).toFixed(2);
   $('showKo').checked = S.showKo; $('soundFirst').checked = S.soundFirst; $('speakCue').checked = S.speakCue;
   $('apiKey').value = S.apiKey; $('model').value = S.model;
-  radio('ttsEngine', S.ttsEngine); radio('pauseSec', S.pauseSec);
+  radio('ttsEngine', S.ttsEngine); radio('pauseSec', S.pauseSec); $('ghToken').value = store.get('ghToken', ''); renderSync();
   $('gemVoice').innerHTML = ''; GEM_VOICES.forEach(([n, g, f]) => $('gemVoice').appendChild(new Option(`${n} · ${g} · ${f}`, n)));
   $('gemVoice').value = S.gemVoice; $('geminiKey').value = S.geminiKey; $('emotion').checked = S.emotion;
   $('gemModelList').innerHTML = ''; GEM_TTS_MODELS.forEach(x => $('gemModelList').appendChild(new Option(x, x))); $('gemModel').value = S.gemModel; $('googleKey').value = S.googleKey; $('gvoice').innerHTML = '';
@@ -1346,7 +1361,10 @@ $('btnSave').onclick = () => {
     model:$('model').value.trim() || MODELS[radioVal('provider') || 'claude'][0],
   });
   if (prevLang !== S.lang){ baseMic = micLang = 'ko'; }
-  store.set('settings', S); gWarned = false;
+  store.set('settings', S); store.set('settingsTs', Date.now()); gWarned = false;
+  const tok = $('ghToken').value.trim();
+  if (tok !== store.get('ghToken', '')){ store.set('ghToken', tok); store.del('gistId'); }
+  syncNow();
   $('settings').hidden = true;
   applySettings(); renderAll(); renderStart(); renderTopicCard();
   toast('저장했어요 ✅');
@@ -1359,6 +1377,7 @@ $('btnClearHistory').onclick = () => {
 $('btnForgetKey').onclick = () => {
   if (!confirm('이 기기에 저장된 키(AI 키 · Google 목소리 키)를 모두 지울까요?')) return;
   S.apiKey = ''; S.googleKey = ''; S.geminiKey = ''; $('apiKey').value = ''; $('googleKey').value = ''; $('geminiKey').value = '';
+  store.del('ghToken'); store.del('gistId'); $('ghToken').value = ''; renderSync();
   store.set('settings', S); fillGoogleVoices(); toast('키를 지웠어요.');
 };
 $('btnSettings').onclick = openSettings;
@@ -1474,7 +1493,7 @@ async function ensureDaily(){
     title:String(o.title || t.ko), scene:String(o.scene || ''), role:String(o.role || ''),
     phrases:(o.phrases || []).map(pair).filter(x => x.say).slice(0, 5), words:(o.words || []).map(pair).filter(x => x.say).slice(0, 6),
   };
-  daily = { key:t.key, card }; store.set('daily', daily);
+  daily = { key:t.key, card, ts:Date.now() }; store.set('daily', daily);
   store.del('history.daily'); // 상황이 바뀌면 대화도 새로
   return card;
 }
@@ -1567,7 +1586,99 @@ $('btnReroll').onclick = () => {
 $('btnStartSettings').onclick = openSettings;
 $('btnHome').onclick = goHome;
 
-applySettings(); renderStart();
+/* ───────── 기기 간 맞추기 (GitHub 비공개 Gist) ───────── */
+const SYNC_FILE = 'ai-talk-friend.json', SECRET = ['apiKey', 'googleKey', 'geminiKey'];
+const lastTs = h => (h && h.length) ? (h[h.length - 1].ts || 0) : 0;
+let syncing = null, syncTimer = 0, syncMsg = '';
+function syncSoon(){ clearTimeout(syncTimer); syncTimer = setTimeout(syncNow, 4000); }
+function renderSync(){
+  const el2 = $('syncStatus'); if (!el2) return;
+  const at = store.get('syncedAt', 0);
+  el2.textContent = !store.get('ghToken', '') ? '아직 연결 안 됨'
+    : syncMsg || (at ? `마지막으로 맞춘 때: ${new Date(at).toLocaleString('ko-KR', { dateStyle:'short', timeStyle:'short' })}` : '연결됨');
+}
+function snapshot(){
+  const set = { ...S }; SECRET.forEach(k => delete set[k]);
+  return {
+    v:1, settings:set, settingsTs:store.get('settingsTs', 0), progress:prog,
+    free:store.get('history.free', []).slice(-200),
+    dailyPack:{ daily:store.get('daily', null), topicOffset:store.get('topicOffset', null), history:store.get('history.daily', []).slice(-200) },
+  };
+}
+function mergeIn(r){
+  // 연속 기록: 날짜는 합치고, 오늘 말한 횟수는 큰 쪽
+  const rp = r.progress || {}, days = [...new Set([...prog.days, ...(rp.days || [])])].sort().slice(-400);
+  let date = prog.date, turns = prog.turns;
+  if ((rp.date || '') > date){ date = rp.date; turns = rp.turns || 0; } else if (rp.date === date) turns = Math.max(turns, rp.turns || 0);
+  prog = { days, date, turns }; store.set('progress', prog);
+  // 설정: 나중에 저장한 쪽 (키는 이 기기 것 그대로)
+  if ((r.settingsTs || 0) > store.get('settingsTs', 0) && r.settings){
+    const keep = {}; SECRET.forEach(k => { keep[k] = S[k]; });
+    S = Object.assign({}, DEFAULTS, r.settings, keep); store.set('settings', S); store.set('settingsTs', r.settingsTs); applySettings();
+  }
+  // 대화: 마지막 말이 더 최근인 쪽
+  let reload = false;
+  if (lastTs(r.free) > lastTs(store.get('history.free', []))){ store.set('history.free', r.free); reload ||= mode === 'free'; }
+  const rd = r.dailyPack || {}, ld = { daily:store.get('daily', null), history:store.get('history.daily', []) };
+  const newer = p => Math.max(lastTs(p.history), p.daily?.ts || 0);
+  if (rd.daily && newer(rd) > newer(ld)){
+    store.set('daily', rd.daily); daily = rd.daily; store.set('history.daily', rd.history || []);
+    if (rd.topicOffset) store.set('topicOffset', rd.topicOffset);
+    reload ||= mode === 'daily';
+  }
+  if (reload && started && !busy){ loadHistory(); renderAll(); renderTopicCard(); }
+  renderStreak(); renderStart();
+}
+async function gh(path, opts = {}){
+  const res = await fetch('https://api.github.com' + path, { ...opts, headers:{
+    Authorization:'Bearer ' + store.get('ghToken', ''), Accept:'application/vnd.github+json',
+    ...(opts.body ? { 'Content-Type':'application/json' } : {}) } });
+  if (!res.ok){ const e = new Error(res.status === 401 ? 'GitHub 토큰이 맞지 않아요' : res.status === 404 ? '저장소를 못 찾았어요' : `GitHub 오류 ${res.status}`); e.status = res.status; throw e; }
+  return res.json();
+}
+async function gistId(){
+  let id = store.get('gistId', '');
+  if (id) return id;
+  for (let page = 1; page <= 5 && !id; page++){
+    const list = await gh(`/gists?per_page=100&page=${page}`);
+    id = list.find(g => g.files && g.files[SYNC_FILE])?.id;
+    if (list.length < 100) break;
+  }
+  if (!id){
+    const g = await gh('/gists', { method:'POST', body:JSON.stringify({ description:'AI 회화 친구 기록 (자동 동기화)', public:false, files:{ [SYNC_FILE]:{ content:JSON.stringify(snapshot()) } } }) });
+    id = g.id;
+  }
+  store.set('gistId', id); return id;
+}
+function syncNow(){
+  if (!store.get('ghToken', '')){ renderSync(); return Promise.resolve(); }
+  if (syncing) return syncing;
+  syncing = (async () => {
+    syncMsg = '맞추는 중…'; renderSync();
+    try{
+      let id = await gistId(), g;
+      try{ g = await gh('/gists/' + id); }
+      catch(e){ if (e.status !== 404) throw e; store.del('gistId'); id = await gistId(); g = await gh('/gists/' + id); }
+      const f = g.files?.[SYNC_FILE];
+      const text = f ? (f.truncated ? await (await fetch(f.raw_url)).text() : f.content) : '';
+      if (text){ try{ mergeIn(JSON.parse(text)); }catch{} }
+      const mine = JSON.stringify(snapshot());
+      if (mine !== text) await gh('/gists/' + id, { method:'PATCH', body:JSON.stringify({ files:{ [SYNC_FILE]:{ content:mine } } }) });
+      store.set('syncedAt', Date.now()); syncMsg = '';
+    }catch(e){ syncMsg = '맞추지 못했어요: ' + (/Failed to fetch/i.test(e.message) ? '인터넷 연결을 확인해 주세요' : e.message); }
+    finally{ syncing = null; renderSync(); }
+  })();
+  return syncing;
+}
+$('btnSyncNow').onclick = () => {
+  const tok = $('ghToken').value.trim();
+  if (tok !== store.get('ghToken', '')){ store.set('ghToken', tok); store.del('gistId'); }
+  syncNow();
+};
+// 앱을 열 때·다시 볼 때 받아 오고, 화면을 떠날 때 올려요
+document.addEventListener('visibilitychange', () => { if (store.get('ghToken', '')) syncNow(); });
+
+applySettings(); renderStart(); syncNow();
 })();
 </script>
 </body>
