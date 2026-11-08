@@ -7,17 +7,17 @@
 <title>AI 회화 친구</title>
 <style>
 :root{
-  --bg:#fff7ef; --surface:#ffffff; --surface2:#fdeedd; --ink:#2b2420; --muted:#7a6d64;
-  --accent:#ff7a45; --accent-ink:#ffffff; --accent-soft:#ffe1d2;
+  --bg:#fff7ef; --surface:#ffffff; --surface2:#fdeedd; --ink:#2b2420; --muted:#6f625a;
+  --accent:#c94a16; --accent-ink:#ffffff; --accent-soft:#ffe1d2; --flame:#ff9600; --flame-off:#d9cbbd;
   --ai:#ffffff; --me:#2f6fed; --me-ink:#ffffff; --repeat:#fff3c4; --repeat-ink:#5b4500;
-  --line:#eadccd; --danger:#d64545; --ok:#2e9e62;
+  --line:#eadccd; --danger:#c53030; --ok:#2e9e62;
   --face:#ffd9b8; --hair:#6b3f22; --cheek:#ffab91;
   --shadow:0 6px 20px rgba(80,40,10,.10);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#1b1715; --surface:#27211e; --surface2:#332a25; --ink:#f4ece6; --muted:#b3a59b;
-    --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22;
+    --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22; --flame:#ffad33; --flame-off:#5a4c43;
     --ai:#2c2521; --me:#4d82f0; --me-ink:#ffffff; --repeat:#4a3d12; --repeat-ink:#ffe28a;
     --line:#3e342e; --danger:#ff6b6b; --ok:#4cc584;
     --face:#f0c39e; --hair:#3a2416; --cheek:#e88b6f;
@@ -26,7 +26,7 @@
 }
 :root[data-theme="dark"]{
   --bg:#1b1715; --surface:#27211e; --surface2:#332a25; --ink:#f4ece6; --muted:#b3a59b;
-  --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22;
+  --accent:#ff8a5b; --accent-ink:#1b1715; --accent-soft:#4a2e22; --flame:#ffad33; --flame-off:#5a4c43;
   --ai:#2c2521; --me:#4d82f0; --me-ink:#ffffff; --repeat:#4a3d12; --repeat-ink:#ffe28a;
   --line:#3e342e; --danger:#ff6b6b; --ok:#4cc584;
   --face:#f0c39e; --hair:#3a2416; --cheek:#e88b6f;
@@ -41,15 +41,15 @@ input,select,textarea{font:inherit;color:var(--ink)}
 #app{max-width:480px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;background:var(--bg)}
 
 /* 위: 친구 얼굴 */
-.top{display:flex;align-items:center;gap:12px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:var(--bg)}
-.face{width:64px;height:64px;flex:none}
+.top{display:flex;align-items:center;gap:6px;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));border-bottom:1px solid var(--line);background:var(--bg)}
+.face{width:48px;height:48px;flex:none}
 .face svg{width:100%;height:100%;display:block}
 .who{flex:1;min-width:0}
 .who .name{font-weight:700;font-size:20px}
 .status{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .timer{font-size:13px;color:var(--muted);background:var(--surface2);padding:4px 10px;border-radius:99px;white-space:nowrap}
 .timer.low{color:var(--danger)}
-.icon{border:0;background:transparent;font-size:22px;padding:6px;border-radius:12px;line-height:1}
+.icon{border:0;background:transparent;font-size:22px;min-width:44px;min-height:44px;border-radius:12px;line-height:1}
 .icon:active{background:var(--surface2)}
 
 #mouth{transform-origin:50px 70px;transition:transform .1s}
@@ -82,7 +82,7 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .summary ol{margin:0;padding-left:20px;font-size:17px;font-weight:600}
 .summary li{margin:3px 0}
 .tools{display:flex;gap:6px;margin-top:8px}
-.tools button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px;font-size:13px}
+.tools button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;min-height:36px;font-size:14px}
 .veil{position:absolute;inset:0;border-radius:inherit;background:var(--ai);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;font-size:14px;color:var(--muted);cursor:pointer}
 .veil .ear{font-size:30px;animation:pulse 1.2s infinite}
 @keyframes pulse{50%{transform:scale(1.15)}}
@@ -94,10 +94,10 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .bottom{padding:10px 16px;padding-bottom:max(14px,env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg)}
 .row{display:flex;justify-content:center;align-items:center;gap:22px}
 .row+.row{margin-top:8px}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;font-size:14px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 14px;min-height:40px;font-size:14px}
 .chip b{color:var(--accent)}
 .round{width:52px;height:52px;border-radius:50%;background:var(--surface);border:1px solid var(--line);font-size:22px}
-.mic{width:92px;height:92px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:40px;box-shadow:0 8px 24px rgba(255,122,69,.45);transition:transform .1s}
+.mic{width:92px;height:92px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:40px;box-shadow:0 8px 24px rgba(201,74,22,.35);transition:transform .1s}
 .mic:active{transform:scale(.95)}
 .mic.listening{animation:ring 1.2s infinite;background:var(--danger)}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(214,69,69,.5)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0)}}
@@ -142,10 +142,59 @@ input,select,textarea{font:inherit;color:var(--ink)}
 .overlay .bigface{width:150px;height:150px;margin:0 auto 12px}
 .overlay h1{font-size:24px;margin:0 0 6px}
 .overlay p{color:var(--muted);margin:0 0 22px;line-height:1.5}
-.overlay .actions{margin-top:0}
+.overlay .actions{margin-top:12px}
 
 .meter{height:12px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:8px}
 .meter i{display:block;height:100%;width:0;background:var(--ok);transition:width .08s}
+/* 연속 학습 */
+.streak{display:inline-flex;align-items:center;gap:3px;font-weight:800;font-size:17px;color:var(--flame);padding:4px 8px;border-radius:99px;white-space:nowrap}
+.streak.off{color:var(--muted)}
+.streak .fl{font-size:20px}
+.streak.off .fl{filter:grayscale(1);opacity:.55}
+.week{display:flex;justify-content:center;gap:8px;margin:10px 0 4px}
+.week .d{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
+.week .dot{width:30px;height:30px;border-radius:50%;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:15px}
+.week .on .dot{background:var(--flame);color:#fff}
+.week .today .dot{box-shadow:0 0 0 2px var(--flame) inset}
+.week .on.today .dot{box-shadow:none}
+.goal{font-size:14px;color:var(--muted);margin:2px 0 18px}
+.goal b{color:var(--ink)}
+/* 시작 화면: 두 가지 연습 */
+.overlay .card{margin:auto}
+.mode{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow)}
+.mode+.mode{margin-top:10px}
+.mode:active{transform:scale(.98)}
+.mode .k{font-size:13px;font-weight:700;color:var(--accent)}
+.mode .t{font-size:20px;font-weight:700;margin-top:2px}
+.mode .s{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.4}
+.mode.primary{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),var(--shadow)}
+.linkbtn{border:0;background:transparent;color:var(--muted);font-size:14px;padding:10px;min-height:44px;text-decoration:underline}
+/* 오늘의 상황 카드 */
+.topic{margin:8px 16px 0;background:var(--surface);border:1px solid var(--line);border-radius:16px;max-height:42vh;overflow-y:auto}
+.topic summary{list-style:none;cursor:pointer;padding:10px 14px;font-size:15px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;position:sticky;top:0;background:var(--surface)}
+.topic summary::-webkit-details-marker{display:none}
+.topic summary::after{content:'펼치기';font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap}
+.topic[open] summary::after{content:'접기'}
+.topic .tb{padding:0 14px 12px}
+.topic .scene{font-size:14px;color:var(--muted);margin:0 0 8px;line-height:1.45}
+.topic .h{font-size:13px;font-weight:700;color:var(--muted);margin:10px 0 6px}
+.phr{display:block;width:100%;text-align:left;border:0;background:var(--surface2);border-radius:12px;padding:8px 12px;margin-bottom:6px;min-height:44px}
+.phr .a{font-size:17px;font-weight:600}
+.phr .b{font-size:13px;color:var(--muted)}
+.words{display:flex;flex-wrap:wrap;gap:6px}
+.words button{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;min-height:40px;font-size:15px}
+.words button span{font-size:12px;color:var(--muted);margin-left:4px}
+/* 목표 달성 축하 */
+.celebrate{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:16px}
+.celebrate .box{background:var(--surface);border-radius:28px;padding:28px 20px 20px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow);animation:pop .45s cubic-bezier(.2,.9,.3,1) both}
+.celebrate .big{font-size:72px;line-height:1;animation:flame .6s .1s cubic-bezier(.2,.9,.3,1) both}
+.celebrate .n{font-size:44px;font-weight:800;color:var(--flame);margin-top:6px;letter-spacing:-.02em}
+.celebrate p{margin:4px 0 0;color:var(--muted)}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes flame{from{transform:scale(.4) translateY(20px)}to{transform:none}}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 .toast{position:fixed;left:50%;top:16px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:30;max-width:calc(100% - 32px);box-shadow:var(--shadow)}
 </style>
 </head>
@@ -157,10 +206,12 @@ input,select,textarea{font:inherit;color:var(--ink)}
       <div class="name" id="friendName">Emma</div>
       <div class="status" id="status">준비됐어요</div>
     </div>
-    <div class="timer" id="timer" hidden></div>
-    <button class="icon" id="btnEnd" title="오늘 대화 마무리">🏁</button>
-    <button class="icon" id="btnSettings" title="설정">⚙️</button>
+    <div class="streak off" id="streakChip"><span class="fl" aria-hidden="true">🔥</span><span id="streakNum">0</span></div>
+    <button class="icon" id="btnHome" title="처음 화면" aria-label="처음 화면">🏠</button>
+    <button class="icon" id="btnEnd" title="오늘 대화 마무리" aria-label="오늘 대화 마무리">🏁</button>
+    <button class="icon" id="btnSettings" title="설정" aria-label="설정">⚙️</button>
   </header>
+  <details class="topic" id="topicCard" hidden open><summary id="topicTitle"></summary><div class="tb" id="topicBody"></div></details>
 
   <main id="chat" aria-live="polite"></main>
   <div id="interim"></div>
@@ -169,11 +220,11 @@ input,select,textarea{font:inherit;color:var(--ink)}
     <div class="writebox" id="writeBox" hidden>
       <div class="h"><span>✏️ 위 문장 중 하나를 써 보세요</span><button id="btnWriteDone">다 했어요</button></div>
     </div>
-    <div class="row"><button class="chip" id="langChip"></button></div>
+    <div class="row"><button class="chip" id="langChip"></button><div class="timer" id="timer" hidden></div></div>
     <div class="row">
-      <button class="icon round" id="btnKeyboard" title="글자로 입력">⌨️</button>
-      <button class="mic" id="btnMic" title="누르고 말하기">🎤</button>
-      <button class="icon round" id="btnReplay" title="마지막 말 다시 듣기">🔁</button>
+      <button class="icon round" id="btnKeyboard" title="글자로 입력" aria-label="글자로 입력">⌨️</button>
+      <button class="mic" id="btnMic" title="누르고 말하기" aria-label="누르고 말하기">🎤</button>
+      <button class="icon round" id="btnReplay" title="마지막 말 다시 듣기" aria-label="마지막 말 다시 듣기">🔁</button>
     </div>
     <form class="textrow" id="textForm" hidden>
       <textarea id="textInput" rows="1" placeholder="한국어도 괜찮아요"></textarea>
@@ -187,10 +238,15 @@ input,select,textarea{font:inherit;color:var(--ink)}
   <div class="card">
     <div class="bigface" id="bigFace"></div>
     <h1 id="startTitle">Emma와 이야기해요</h1>
-    <p id="startText">천천히 말해 줄게요. 한국어로 대답해도 괜찮아요.</p>
+    <div class="streak off" id="startStreak" style="font-size:22px"><span class="fl" aria-hidden="true">🔥</span><span id="startStreakText">0일 연속</span></div>
+    <div class="week" id="week"></div>
+    <p class="goal" id="goalText"></p>
+    <p id="startText" hidden></p>
+    <button class="mode primary" id="btnDaily"><div class="k">오늘의 상황</div><div class="t" id="dailyTitle"></div><div class="s" id="dailySub">표현 5개와 단어 6개를 알려 주고, 그 상황으로 같이 연습해요.</div></button>
+    <button class="linkbtn" id="btnReroll">다른 상황으로 바꾸기</button>
+    <button class="mode" id="btnFree"><div class="k">자유 대화</div><div class="t">아무 얘기나 해요</div><div class="s" id="freeSub">오늘 하루 이야기부터 시작해요. 한국어로 대답해도 괜찮아요.</div></button>
     <div class="actions">
-      <button class="btn" id="btnStart">▶ 시작하기</button>
-      <button class="btn ghost" id="btnStartNew" hidden>처음부터 새로 하기</button>
+      <button class="btn ghost" id="btnStartNew" hidden>자유 대화 처음부터</button>
       <button class="btn ghost" id="btnStartSettings">⚙️ 설정</button>
     </div>
   </div>
@@ -369,9 +425,14 @@ const store = {
   del(k){ try{ localStorage.removeItem('atf.'+k); }catch{} },
 };
 let S = Object.assign({}, DEFAULTS, store.get('settings', {}));
-let history = store.get('history', []);
-history.forEach(m => { m.veiled = false; }); // 지난 기록은 다시 가리지 않기
-const saveHistory = () => store.set('history', history);
+// 기록은 연습 종류(오늘의 상황 / 자유 대화)마다 따로 둬요
+if (store.get('history', null) && !store.get('history.free', null)){ store.set('history.free', store.get('history')); store.del('history'); }
+let mode = 'free', history = [];
+function loadHistory(){
+  history = store.get('history.' + mode, []);
+  history.forEach(m => { m.veiled = false; }); // 지난 기록은 다시 가리지 않기
+}
+const saveHistory = () => store.set('history.' + mode, history);
 
 /* ───────── 화면 요소 ───────── */
 const $ = id => document.getElementById(id);
@@ -443,7 +504,7 @@ summary는 마무리할 때만 채워(오늘 같이 쓴 ${lang} 문장 3개까�
 [앱이 보내는 특별 신호]
 - "[시작]": 네가 먼저 짧게 인사하고, 오늘 하루가 어땠는지 하나만 물어봐.
 - "[마무리]" 또는 "[시간 끝]": 규칙 9대로. summary를 채우고, say는 짧은 마무리 인사, ko에는 "이 중에 하나를 아래에 써 볼래?" 같은 짧은 한국어 안내.
-- "[쓰기] …": 내가 직접 써 본 문장이야. 잘 썼으면 say에 한 단어 칭찬. 고칠 데가 있으면 설명 없이 say에 "Almost! Like this." 같은 짧고 다정한 말, repeat에 고친 자연스러운 문장. 다른 문장도 써 보고 싶은지 가볍게 물어봐도 돼.`;
+- "[쓰기] …": 내가 직접 써 본 문장이야. 잘 썼으면 say에 한 단어 칭찬. 고칠 데가 있으면 설명 없이 say에 "Almost! Like this." 같은 짧고 다정한 말, repeat에 고친 자연스러운 문장. 다른 문장도 써 보고 싶은지 가볍게 물어봐도 돼.${dailyBlock()}`;
 }
 
 /* ───────── AI 호출 (Gemini · OpenAI · Claude) ───────── */
@@ -481,8 +542,8 @@ async function httpJSON(url, opts){
   return data;
 }
 
-async function callAI(){
-  const sys = buildSystem(), msgs = apiMessages(), key = S.apiKey.trim(), model = (S.model || '').trim();
+async function callAI(sys = buildSystem(), msgs = apiMessages(), schema = REPLY_SCHEMA, rawOut = false){
+  const key = S.apiKey.trim(), model = (S.model || '').trim();
   let raw = '';
   if (S.provider === 'gemini'){
     const d = await httpJSON(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
@@ -511,7 +572,7 @@ async function callAI(){
     const body = {
       model, max_tokens:1024, system:sys,
       messages: msgs.map(m => ({ role:m.role, content:m.text })),
-      output_config:{ effort:'low', format:{ type:'json_schema', schema:REPLY_SCHEMA } },
+      output_config:{ effort:'low', format:{ type:'json_schema', schema } },
     };
     if (/haiku/.test(model)) body.thinking = { type:'disabled' }; // 짧은 수다라 생각 단계 생략(더 빠르고 쌈)
     const d = await httpJSON('https://api.anthropic.com/v1/messages', {
@@ -525,7 +586,7 @@ async function callAI(){
     if (d?.stop_reason === 'refusal') throw new Error('AI가 이 대화에 답하지 않았어요. 다른 이야기를 해 볼까요?');
     raw = (d?.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
   }
-  return parseReply(raw);
+  return rawOut ? raw : parseReply(raw);
 }
 
 function parseReply(raw){
@@ -1042,6 +1103,7 @@ async function send(text, opt = {}){
   if (!S.apiKey){ openSettings(); toast('먼저 AI 키를 넣어 주세요.'); return; }
   history.push({ role:'me', text, shown:opt.shown, hidden:!!opt.hidden, kind:opt.kind || '', ts:Date.now() });
   saveHistory();
+  if (!opt.hidden){ addTurn(); $('topicCard').open = false; } // 말을 시작하면 상황 카드는 접어서 대화를 넓게
   if (!opt.hidden){ chat.appendChild(renderMsg(history[history.length-1], history.length-1)); scrollDown(); }
   await reply(opt.kind);
 }
@@ -1080,7 +1142,7 @@ function friendlyError(e){
 $('btnReplay').onclick = () => { const m = lastAi(); if (m) speakMsg(m); };
 $('btnEnd').onclick = () => {
   if (busy || !history.length) return;
-  if (confirm('오늘 대화를 마무리할까요?')) send('[마무리]', { hidden:true, kind:'wrap' });
+  send('[마무리]', { hidden:true, kind:'wrap' });
 };
 
 /* 글자 입력 / 쓰기 연습 */
@@ -1286,13 +1348,13 @@ $('btnSave').onclick = () => {
   if (prevLang !== S.lang){ baseMic = micLang = 'ko'; }
   store.set('settings', S); gWarned = false;
   $('settings').hidden = true;
-  applySettings(); renderAll();
+  applySettings(); renderAll(); renderStart(); renderTopicCard();
   toast('저장했어요 ✅');
 };
 $('btnCloseSettings').onclick = () => { $('settings').hidden = true; };
 $('btnClearHistory').onclick = () => {
   if (!confirm('이 기기에 저장된 대화 기록을 모두 지울까요?')) return;
-  history = []; saveHistory(); renderAll(); showWriteBox(false); toast('대화 기록을 지웠어요.');
+  store.del('history.free'); store.del('history.daily'); history = []; renderAll(); showWriteBox(false); renderStart(); toast('대화 기록을 지웠어요.');
 };
 $('btnForgetKey').onclick = () => {
   if (!confirm('이 기기에 저장된 키(AI 키 · Google 목소리 키)를 모두 지울까요?')) return;
@@ -1308,28 +1370,204 @@ function applySettings(){
   renderLangChip(); renderTimer();
 }
 
-/* ───────── 시작 ───────── */
-function begin(fresh){
+/* ───────── 연속 학습 (듀오링고처럼 하루 목표 → 🔥) ───────── */
+const GOAL_TURNS = 5; // 하루에 5번 말하면 그날 완료
+let prog = store.get('progress', { days:[], date:'', turns:0 });
+const dayOf = d => d.toLocaleDateString('sv');
+function turnsToday(){ return prog.date === today() ? prog.turns : 0; }
+function streakCount(){
+  const set = new Set(prog.days), d = new Date();
+  if (!set.has(dayOf(d))) d.setDate(d.getDate() - 1); // 오늘 아직이면 어제까지 이어진 기록
+  let n = 0; while (set.has(dayOf(d))){ n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function addTurn(){
+  if (prog.date !== today()){ prog.date = today(); prog.turns = 0; }
+  prog.turns++;
+  if (prog.turns >= GOAL_TURNS && !prog.days.includes(today())){
+    prog.days = [...prog.days, today()].slice(-400);
+    store.set('progress', prog); renderStreak(); celebrate();
+    return;
+  }
+  store.set('progress', prog); renderStreak();
+}
+function renderStreak(){
+  const n = streakCount(), done = prog.days.includes(today()), t = Math.min(turnsToday(), GOAL_TURNS);
+  $('streakNum').textContent = n;
+  $('streakChip').classList.toggle('off', !done);
+  $('streakChip').setAttribute('aria-label', `${n}일 연속. 오늘 ${t}/${GOAL_TURNS}번 말함`);
+  $('streakChip').title = done ? `${n}일 연속! 오늘 목표 완료` : `오늘 ${t}/${GOAL_TURNS}번 말했어요`;
+  $('startStreak').classList.toggle('off', !done);
+  $('startStreakText').textContent = n ? `${n}일 연속` : '오늘부터 시작!';
+  $('goalText').innerHTML = done ? '오늘 목표 완료 ✅ 내일 또 만나요' : `오늘 목표: <b>${t}/${GOAL_TURNS}</b>번 말하기${n && !done ? ' · 오늘 하면 ' + (n + 1) + '일째!' : ''}`;
+  const wk = $('week'), names = '일월화수목금토', set = new Set(prog.days); wk.innerHTML = '';
+  for (let k = 6; k >= 0; k--){
+    const d = new Date(); d.setDate(d.getDate() - k);
+    const on = set.has(dayOf(d)), el2 = el('div', 'd' + (on ? ' on' : '') + (k === 0 ? ' today' : ''));
+    el2.setAttribute('aria-label', `${names[d.getDay()]}요일 ${on ? '완료' : '안 함'}`);
+    const dot = el('div', 'dot', on ? '🔥' : ''); dot.setAttribute('aria-hidden', 'true');
+    el2.append(dot, el('span', null, k === 0 ? '오늘' : names[d.getDay()]));
+    wk.appendChild(el2);
+  }
+}
+function celebrate(){
+  const n = streakCount(), c = el('div', 'celebrate'), box = el('div', 'box');
+  c.setAttribute('role', 'dialog'); c.setAttribute('aria-modal', 'true'); c.setAttribute('aria-label', `${n}일 연속 달성`);
+  const ok = el('button', 'btn', '계속하기'); ok.style.cssText = 'width:100%;margin-top:18px';
+  box.append(el('div', 'big', '🔥'), el('div', 'n', `${n}일 연속!`),
+    el('p', null, n === 1 ? '오늘 목표를 채웠어요. 내일도 오면 2일이 돼요.' : '오늘 목표를 채웠어요. 이대로 쭉 가 봐요!'), ok);
+  c.appendChild(box); document.body.appendChild(c);
+  const close = () => c.remove();
+  ok.onclick = close; c.onclick = e => { if (e.target === c) close(); };
+  ok.focus();
+}
+
+/* ───────── 오늘의 상황 ───────── */
+// k: 'a' 어른만, 'c' 아이만, '' 둘 다
+const TOPICS = [
+  ['카페에서 주문하기','ordering a drink at a café',''], ['길 묻기','asking for directions on the street',''],
+  ['식당에서 주문하기','ordering food at a restaurant',''], ['마트에서 장보기','grocery shopping and asking where things are',''],
+  ['옷 가게에서 사이즈 묻기','trying on clothes and asking for a different size',''], ['주말 계획 이야기','chatting about weekend plans',''],
+  ['취미 소개하기','introducing your hobbies',''], ['날씨 이야기','small talk about the weather',''],
+  ['새 친구에게 자기소개','introducing yourself to a new friend',''], ['생일 파티','talking at a birthday party',''],
+  ['좋아하는 음식','talking about favorite foods',''], ['영화 보러 가기','buying movie tickets and choosing a movie',''],
+  ['가족 소개','talking about your family',''], ['운동 이야기','talking about exercise and sports',''],
+  ['같이 요리하기','cooking together and following a recipe',''], ['여행 추억','sharing a memory from a trip',''],
+  ['호텔 체크인','checking in at a hotel','a'], ['공항 체크인','checking in at the airport','a'],
+  ['택시 타기','taking a taxi and telling the driver where to go','a'], ['약국에서 증상 말하기','describing symptoms at a pharmacy','a'],
+  ['전화로 예약하기','making a restaurant reservation by phone','a'], ['회사 동료와 스몰토크','small talk with a coworker','a'],
+  ['교환·환불하기','returning or exchanging an item at a store','a'],
+  ['동물원 구경','visiting the zoo and talking about animals','c'], ['놀이터에서 놀기','playing together at the playground','c'],
+  ['학교에서 있었던 일','talking about a day at school','c'], ['장난감 가게','choosing a toy at a toy store','c'],
+];
+function topicToday(){
+  const list = TOPICS.filter(t => t[2] !== (S.who === '아이' ? 'a' : 'c'));
+  const off = store.get('topicOffset', { date:'', n:0 });
+  const n = off.date === today() ? off.n : 0;
+  const day = Math.floor(new Date(today() + 'T00:00:00').getTime() / 86400000);
+  const idx = (day + n) % list.length;
+  return { ko:list[idx][0], en:list[idx][1], key:`${today()}|${list[idx][0]}|${S.lang}|${S.level}` };
+}
+let daily = store.get('daily', null); // { key, card }
+const TOPIC_SCHEMA = {
+  type:'object',
+  properties:{
+    title:{type:'string'}, scene:{type:'string'}, role:{type:'string'},
+    phrases:{type:'array', items:{type:'object', properties:{say:{type:'string'}, ko:{type:'string'}}, required:['say','ko'], additionalProperties:false}},
+    words:{type:'array', items:{type:'object', properties:{say:{type:'string'}, ko:{type:'string'}}, required:['say','ko'], additionalProperties:false}},
+  },
+  required:['title','scene','role','phrases','words'], additionalProperties:false,
+};
+async function ensureDaily(){
+  const t = topicToday();
+  if (daily?.key === t.key) return daily.card;
+  const lang = L().ko;
+  const sys = `너는 ${lang} 회화 연습을 준비하는 선생님이야. 답은 JSON 하나로만 해.`;
+  const user = `학습자: ${S.who}${S.age ? ', ' + S.age + '살' : ''}, ${lang} 수준 "${S.level}", 좋아하는 것: ${S.likes || '모름'}.
+오늘의 상황: ${t.ko} (${t.en}).
+이 상황에서 바로 쓸 수 있는 ${lang} 표현 5개와 단어 6개를 골라 줘. 수준에 맞게 짧고 자연스럽게(표현은 8단어 이내). 학습자가 말할 표현 위주로.
+{"title":"상황 이름(한국어, 짧게)","scene":"어떤 상황인지 한 문장(한국어)","role":"너(AI)가 맡을 역할(한국어, 예: 카페 점원)","phrases":[{"say":"${lang} 표현","ko":"한국어 뜻"}],"words":[{"say":"${lang} 단어","ko":"한국어 뜻"}]}`;
+  const raw = await callAI(sys, [{ role:'user', text:user }], TOPIC_SCHEMA, true);
+  let o; try{ o = JSON.parse(String(raw).replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '')); }catch{ throw new Error('오늘의 상황을 만들지 못했어요'); }
+  const pair = x => ({ say:String(x?.say || '').trim(), ko:String(x?.ko || '').trim() });
+  const card = {
+    title:String(o.title || t.ko), scene:String(o.scene || ''), role:String(o.role || ''),
+    phrases:(o.phrases || []).map(pair).filter(x => x.say).slice(0, 5), words:(o.words || []).map(pair).filter(x => x.say).slice(0, 6),
+  };
+  daily = { key:t.key, card }; store.set('daily', daily);
+  store.del('history.daily'); // 상황이 바뀌면 대화도 새로
+  return card;
+}
+function dailyBlock(){
+  if (mode !== 'daily' || !daily?.card) return '';
+  const c = daily.card, lang = L().ko;
+  return `
+
+[오늘의 상황 — 역할극]
+상황: ${c.title} — ${c.scene}
+너의 역할: ${c.role || '상황 속 상대'}. 이 상황 속 사람처럼 짧게 말해.
+오늘 연습할 표현: ${c.phrases.map(p => `"${p.say}"(${p.ko})`).join(', ')}
+오늘 단어: ${c.words.map(w => `${w.say}(${w.ko})`).join(', ')}
+- 내가 이 표현들을 자연스럽게 쓰도록 이끌어. 따라 말하기(repeat)는 되도록 오늘 표현에서 골라.
+- "[시작]"을 받으면 인사 대신 이 상황의 첫 마디로 역할극을 시작해(${lang}로 짧게). 오늘 하루 질문은 하지 마.
+- 상황이 자연스럽게 끝나면 비슷한 다른 장면으로 한 번 더 해 보자고 해도 돼.`;
+}
+function speakText(text){
+  stopSpeaking();
+  const token = ++speakToken;
+  setStatus('말하는 중…', 'speaking');
+  speakOne(text, L().code, S.rate, token, S.voice, 'repeat').then(() => { if (token === speakToken) setStatus(idleStatus()); });
+}
+function renderTopicCard(){
+  const card = $('topicCard');
+  if (mode !== 'daily' || !daily?.card){ card.hidden = true; return; }
+  const c = daily.card, body = $('topicBody');
+  $('topicTitle').textContent = '📌 ' + c.title;
+  body.innerHTML = '';
+  if (c.scene) body.appendChild(el('p', 'scene', c.scene + (c.role ? ` (친구는 ${c.role})` : '')));
+  body.appendChild(el('div', 'h', '오늘의 표현 · 눌러서 듣기'));
+  c.phrases.forEach(p => {
+    const b = el('button', 'phr'); b.append(el('div', 'a', p.say), el('div', 'b', p.ko));
+    b.setAttribute('aria-label', `${p.say}, ${p.ko}. 듣기`);
+    b.onclick = () => speakText(p.say); body.appendChild(b);
+  });
+  if (c.words.length){
+    body.appendChild(el('div', 'h', '오늘의 단어'));
+    const w = el('div', 'words');
+    c.words.forEach(x => { const b = el('button', null, x.say); b.appendChild(el('span', null, x.ko)); b.onclick = () => speakText(x.say); w.appendChild(b); });
+    body.appendChild(w);
+  }
+  card.hidden = false;
+}
+
+/* ───────── 시작 화면 ───────── */
+function renderStart(){
+  const t = topicToday(), ready = daily?.key === t.key;
+  $('dailyTitle').textContent = ready ? daily.card.title : t.ko;
+  const dh = store.get('history.daily', []).length && ready;
+  $('dailySub').textContent = dh ? '하던 상황을 이어서 해요.' : '표현 5개와 단어 6개를 알려 주고, 그 상황으로 같이 연습해요.';
+  const fh = store.get('history.free', []).length;
+  $('freeSub').textContent = fh ? '지난번 대화에서 이어서 해요.' : '오늘 하루 이야기부터 시작해요. 한국어로 대답해도 괜찮아요.';
+  $('btnStartNew').hidden = !fh;
+  const st = $('startText');
+  st.hidden = !!S.apiKey;
+  st.textContent = '처음이에요? ⚙️ 설정에서 "내 사용설명서"를 채우고 AI 키를 넣어 주세요 (1분).';
+  renderStreak();
+}
+function goHome(){
+  stopSpeaking(); if (listening && micSess) micSess.finish(true);
+  started = false; renderStart(); $('startOverlay').hidden = false;
+}
+async function begin(m, fresh){
   if (!S.apiKey){ openSettings(); toast('먼저 설정에서 AI 키를 넣어 주세요.'); return; }
-  $('startOverlay').hidden = true; started = true; lastActivity = Date.now();
-  if (synth){ const u = new SpeechSynthesisUtterance(''); synth.speak(u); } // 소리 재생 허용 받기
+  if (synth){ const u = new SpeechSynthesisUtterance(''); synth.speak(u); } // 소리 재생 허용 받기 (누른 순간에 해야 해요)
   getCtx();
   if (useCloud()){ audio.src = SILENT_WAV; audio.play().catch(() => {}); }
-  if (fresh){ history = []; saveHistory(); renderAll(); showWriteBox(false); }
+  if (m === 'daily'){
+    const btn = $('btnDaily'); btn.disabled = true; $('dailySub').textContent = '오늘의 표현을 고르는 중…';
+    try{ await ensureDaily(); }
+    catch(e){ toast(friendlyError(e), 5000); renderStart(); return; }
+    finally{ btn.disabled = false; }
+  }
+  mode = m; loadHistory();
+  if (fresh){ history = []; saveHistory(); }
+  $('startOverlay').hidden = true; started = true; lastActivity = Date.now();
+  renderTopicCard(); renderAll(); showWriteBox(false);
   if (!history.length) send('[시작]', { hidden:true });
   else setStatus(idleStatus());
 }
-$('btnStart').onclick = () => begin(false);
-$('btnStartNew').onclick = () => { if (confirm('지난 대화를 지우고 새로 시작할까요?')) begin(true); };
+$('btnDaily').onclick = () => begin('daily');
+$('btnFree').onclick = () => begin('free');
+$('btnStartNew').onclick = () => { if (confirm('자유 대화 기록을 지우고 새로 시작할까요?')) begin('free', true); };
+$('btnReroll').onclick = () => {
+  const off = store.get('topicOffset', { date:'', n:0 });
+  store.set('topicOffset', { date:today(), n:(off.date === today() ? off.n : 0) + 1 });
+  renderStart();
+};
 $('btnStartSettings').onclick = openSettings;
+$('btnHome').onclick = goHome;
 
-applySettings(); renderAll();
-if (history.length){
-  $('btnStart').textContent = '▶ 이어서 이야기하기';
-  $('btnStartNew').hidden = false;
-  $('startText').textContent = '지난번 대화에서 이어서 해요.';
-}
-if (!S.apiKey){ $('startText').textContent = '처음이에요? ⚙️ 설정에서 "내 사용설명서"를 채우고 AI 키를 넣어 주세요 (1분).'; }
+applySettings(); renderStart();
 })();
 </script>
 </body>
