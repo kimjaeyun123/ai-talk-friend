@@ -780,10 +780,11 @@ function geminiAudio(text, style, cfg = {}){
 let actx = null, curStop = null;
 // 아이폰: 마이크를 쓴 뒤엔 소리가 '통화 모드'(작고 먹먹)로 남아 있어서, 말할 땐 일반 재생 모드로 돌려놓기
 function audioMode(t){ try{ if (navigator.audioSession && navigator.audioSession.type !== t) navigator.audioSession.type = t; }catch{} }
-let soundBlocked = false, pendingMsg = null;
+let soundBlocked = false, pendingMsg = null, synthUnlocked = false;
 // 터치할 때마다 멈춘 소리 엔진을 깨우고, 못 들려준 말이 있으면 그때 들려주기
 document.addEventListener('pointerdown', e => {
   if (actx && actx.state !== 'running') actx.resume().catch(() => {});
+  if (!synthUnlocked && window.speechSynthesis){ synthUnlocked = true; try{ speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); }catch{} } // 아이폰: 첫 터치 때 기기 목소리 열어 두기
   const m = pendingMsg; pendingMsg = null;
   if (m && !e.target.closest('button, input, textarea, select, a, label')) speakMsg(m);
 }, true);
