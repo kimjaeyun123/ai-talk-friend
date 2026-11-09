@@ -778,8 +778,6 @@ function geminiAudio(text, style, cfg = {}){
 }
 /* 스트리밍: 소리가 만들어지는 대로 조각조각 받아서 바로 틀기 (Web Audio) */
 let actx = null, curStop = null;
-// 아이폰: 마이크를 쓴 뒤엔 소리가 '통화 모드'(작고 먹먹)로 남아 있어서, 말할 땐 일반 재생 모드로 돌려놓기
-function audioMode(t){ try{ if (navigator.audioSession && navigator.audioSession.type !== t) navigator.audioSession.type = t; }catch{} }
 let soundBlocked = false, pendingMsg = null, synthUnlocked = false;
 // 터치할 때마다 멈춘 소리 엔진을 깨우고, 못 들려준 말이 있으면 그때 들려주기
 document.addEventListener('pointerdown', e => {
@@ -912,7 +910,6 @@ function cloudAudio(text, code, rate, kind, mood){
 
 let speakToken = 0;
 async function speakOne(text, code, rate, token, voiceName, kind = 'say', mood = ''){
-  audioMode('playback');
   if (!text || token !== speakToken) return;
   if (useGemini()){
     try{ return await playJob(gemStream(text, gemStyle(kind, mood, rate)), token); }
@@ -997,7 +994,6 @@ function startListening(){
   if (!SR){ toggleKeyboard(true); toast('이 브라우저는 음성 인식이 안 돼요. 크롬이나 엣지에서 열어 주세요. 지금은 글자로 입력할 수 있어요.', 4500); return; }
   if (busy) return;
   stopSpeaking();
-  audioMode('play-and-record');
   const sess = micSess = { parts:[], interim:'', started:Date.now(), lastHeard:0, done:false, cancel:false, fatal:false };
   const textOf = () => [...sess.parts, sess.interim].join(' ').replace(/\s+/g, ' ').trim();
   const wait = () => (+S.pauseSec || 0) * 1000;
