@@ -780,12 +780,16 @@ function geminiAudio(text, style, cfg = {}){
 let actx = null, curStop = null;
 let soundBlocked = false, pendingMsg = null, synthUnlocked = false;
 // 터치할 때마다 멈춘 소리 엔진을 깨우고, 못 들려준 말이 있으면 그때 들려주기
-document.addEventListener('pointerdown', e => {
+const wake = e => {
   if (actx && actx.state !== 'running') actx.resume().catch(() => {});
-  if (!synthUnlocked && window.speechSynthesis){ synthUnlocked = true; try{ speechSynthesis.speak(new SpeechSynthesisUtterance(' ')); }catch{} } // 아이폰: 첫 터치 때 기기 목소리 열어 두기
+  if (!synthUnlocked && window.speechSynthesis){ // 아이폰: 첫 터치 때 기기 목소리 열어 두기
+    synthUnlocked = true;
+    try{ const u = new SpeechSynthesisUtterance('.'); u.volume = 0; speechSynthesis.speak(u); }catch{}
+  }
   const m = pendingMsg; pendingMsg = null;
   if (m && !e.target.closest('button, input, textarea, select, a, label')) speakMsg(m);
-}, true);
+};
+['touchend', 'click'].forEach(ev => document.addEventListener(ev, wake, true));
 function getCtx(){
   if (!actx){ const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; actx = new C(); }
   if (actx.state === 'suspended') actx.resume().catch(() => {});
@@ -933,15 +937,22 @@ function browserSpeak(text, code, rate, token, voiceName){
     const u = new SpeechSynthesisUtterance(text);
     u.lang = code; u.rate = rate;
     const v = pickVoice(code, voiceName); if (v) u.voice = v;
-    let done = false; const fin = () => { if (!done){ done = true; clearTimeout(t); res(); } };
+    let done = false, began = false;
+    const fin = () => { if (!done){ done = true; clearTimeout(t); clearTimeout(chk); res(); } };
+    u.onstart = () => { began = true; };
     u.onend = fin; u.onerror = fin;
     const t = setTimeout(fin, 4000 + text.length * 160 / rate); // 일부 브라우저가 onend를 안 줄 때 대비
-    synth.speak(u);
+    let chk;
+    setTimeout(() => {
+      if (done || token !== speakToken) return fin();
+      synth.resume(); synth.speak(u);
+      chk = setTimeout(() => { if (!began && !done){ soundBlocked = true; synth.cancel(); fin(); } }, 2500);
+    }, 150);
   });
 }
 function stopSpeaking(){
   speakToken++;
-  if (synth) synth.cancel();
+  if (synth && (synth.speaking || synth.pending)) synth.cancel();
   if (curStop) curStop();
   audio.pause(); if (audioDone){ audioDone(); audioDone = null; }
 }
