@@ -780,6 +780,13 @@ function geminiAudio(text, style, cfg = {}){
 let actx = null, curStop = null;
 // 아이폰: 마이크를 쓴 뒤엔 소리가 '통화 모드'(작고 먹먹)로 남아 있어서, 말할 땐 일반 재생 모드로 돌려놓기
 function audioMode(t){ try{ if (navigator.audioSession && navigator.audioSession.type !== t) navigator.audioSession.type = t; }catch{} }
+let soundBlocked = false, pendingMsg = null;
+// 터치할 때마다 멈춘 소리 엔진을 깨우고, 못 들려준 말이 있으면 그때 들려주기
+document.addEventListener('pointerdown', e => {
+  if (actx && actx.state !== 'running') actx.resume().catch(() => {});
+  const m = pendingMsg; pendingMsg = null;
+  if (m && !e.target.closest('button, input, textarea, select, a, label')) speakMsg(m);
+}, true);
 function getCtx(){
   if (!actx){ const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; actx = new C(); }
   if (actx.state === 'suspended') actx.resume().catch(() => {});
@@ -886,6 +893,7 @@ function playJob(job, token){
       if (job.ended && i >= job.chunks.length && ctx.currentTime >= t) done();
     }, 50);
     curStop = stopNow;
+    setTimeout(() => { if (!finished && ctx.state !== 'running'){ stopAll(); const e = new Error('blocked'); e.blocked = true; done(e); } }, 700);
     job.subs.add(pump); pump();
   });
 }
@@ -907,7 +915,7 @@ async function speakOne(text, code, rate, token, voiceName, kind = 'say', mood =
   if (!text || token !== speakToken) return;
   if (useGemini()){
     try{ return await playJob(gemStream(text, gemStyle(kind, mood, rate)), token); }
-    catch(e){ if (token !== speakToken) return; } // 스트리밍이 안 되면 아래에서 통째로 받아 보기
+    catch(e){ if (token !== speakToken) return; if (e.blocked){ soundBlocked = true; return; } } // 스트리밍이 안 되면 아래에서 통째로 받아 보기
   }
   if (useCloud()){
     try{
@@ -949,7 +957,12 @@ async function speakMsg(m, slow){
       .forEach(([t, c, r, k]) => { if (t) prepare(t, c, r, k, mood).catch(() => {}); });
   }
   setStatus('말하는 중…', 'speaking');
+  soundBlocked = false;
   await speakOne(m.data.say, code, rate, token, S.voice, 'say', mood);
+  if (soundBlocked && token === speakToken){ // 아이폰이 소리를 막음 → 다음 터치 때 들려주기
+    pendingMsg = m; setStatus(idleStatus()); unveil(m);
+    toast('🔊 화면을 한 번 톡 누르면 들려줄게요', 4000); return;
+  }
   if (m.data.repeat){
     if (S.speakCue) await speakOne(m.cue, 'ko-KR', 1.0, token, '', 'cue');
     await speakOne(m.data.repeat, code, rate, token, S.voice, 'repeat');
