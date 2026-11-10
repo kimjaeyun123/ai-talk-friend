@@ -1711,5 +1711,23 @@ document.addEventListener('visibilitychange', () => { if (store.get('ghToken', '
 applySettings(); renderStart(); syncNow();
 })();
 </script>
+<!-- My Agents home button (source: ~/agent-hub/home-button.html) -->
+<script>
+(() => {
+  const h = location.hostname;
+  const local = /^(localhost|127\.0\.0\.1|100\.\d+\.\d+\.\d+|[\w-]+\.local)$/.test(h);
+  const a = document.createElement('a');
+  a.href = `http://${local ? h : '100.124.173.6'}:4400/`;
+  if (!local) a.target = '_blank';
+  a.setAttribute('aria-label', 'My Agents');
+  a.title = 'My Agents';
+  a.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2.2" fill="#0a84ff"/><rect x="13" y="3" width="8" height="8" rx="2.2" fill="#5e5ce6"/><rect x="3" y="13" width="8" height="8" rx="2.2" fill="#ff9f0a"/><rect x="13" y="13" width="8" height="8" rx="2.2" fill="#30b158"/></svg>';
+  a.style.cssText = 'position:fixed;z-index:2147483000;top:calc(env(safe-area-inset-top) + 10px);right:12px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:rgba(128,128,128,.22);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%);box-shadow:0 1px 4px rgba(0,0,0,.15);transition:transform 100ms ease-out;-webkit-tap-highlight-color:transparent';
+  a.addEventListener('pointerdown', () => a.style.transform = 'scale(.9)');
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(e => a.addEventListener(e, () => a.style.transform = ''));
+  const add = () => document.body.append(a);
+  document.body ? add() : addEventListener('DOMContentLoaded', add);
+})();
+</script>
 </body>
 </html>
